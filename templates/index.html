@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websy - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Vinculando el favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<body>
+    <!-- Sección Hero -->
+    <section class="hero">
+        <h1 class="fade-in">Transformá tu negocio con Websy</h1>
+        <p class="fade-in">Te ayudamos a potenciar tu presencia en internet mediante páginas web modernas, creativas y eficientes.</p>
+        <!-- Botón que realiza el desplazamiento -->
+        <a href="#Websy" id="scrollButton" class="btn">Conocé más</a>
+    </section>
+
+    <!-- Sección Websy -->
+    <section id="Websy">
+        <div class="contenido">
+            <h2 class="fade-in">¿Qué es Websy?</h2>
+            <p class="fade-in">
+                Websy es un emprendimiento digital hecho para quienes quieren llevar su negocio al mundo online de forma fácil y profesional. Creamos sitios web y aplicaciones modernas que no requieren conocimientos técnicos. Si no sabes de código, ¡no hay problema! Nosotros nos encargamos de todo para que puedas enfocarte en lo que mejor sabes hacer: tu negocio.
+            </p>
+            <p class="fade-in">
+                ¿Qué nos hace diferentes? En Websy, no solo creamos páginas web, sino que las diseñamos pensando en tu público y en lo que necesitas para crecer. Ya sea una página de presentación, una tienda online o un blog, nos aseguramos de que tu sitio sea atractivo, funcional y optimizado para dispositivos móviles. ¡Porque sabemos que todos estamos en movimiento!
+            </p>
+            <p class="fade-in">
+                Lo mejor de todo es que no solo entregamos tu sitio, sino que te acompañamos a lo largo del camino. Ofrecemos soporte y mantenimiento para que tu presencia online esté siempre a la vanguardia, sin que tengas que preocuparte por nada.
+            </p>
+            <p class="fade-in">
+                Si estás listo para transformar tu negocio y destacarte en internet de una forma sencilla, ¡Websy es para ti!
+            </p>
+        </div>
+        <img src="{{ url_for('static', filename='img/websy-logo.jpeg') }}" alt="Logo de Websy" class="rounded mx-auto d-block" width="300">
+    </section>
+
+    <!-- Sección Productos -->
+    <section id="productos">
+        <h2 class="fade-in">¿Qué tipos de Webs diseñamos?</h2>
+            <p class="fade-in">
+                Websy es un emprendimiento digital hecho para quienes quieren llevar su negocio al mundo online de forma fácil y profesional. Creamos sitios web y aplicaciones modernas que no requieren conocimientos técnicos. Si no sabes de código, ¡no hay problema! Nosotros nos encargamos de todo para que puedas enfocarte en lo que mejor sabes hacer: tu negocio.
+            </p>
+            <p class="fade-in">
+                ¿Qué nos hace diferentes? En Websy, no solo creamos páginas web, sino que las diseñamos pensando en tu público y en lo que necesitas para crecer. Ya sea una página de presentación, una tienda online o un blog, nos aseguramos de que tu sitio sea atractivo, funcional y optimizado para dispositivos móviles. ¡Porque sabemos que todos estamos en movimiento!
+            </p>
+            <p class="fade-in">
+                Lo mejor de todo es que no solo entregamos tu sitio, sino que te acompañamos a lo largo del camino. Ofrecemos soporte y mantenimiento para que tu presencia online esté siempre a la vanguardia, sin que tengas que preocuparte por nada.
+            </p>
+            <p class="fade-in">
+                Si estás listo para transformar tu negocio y destacarte en internet de una forma sencilla, ¡Websy es para ti!
+            </p>
+        </div>
+        <!-- Aquí puedes agregar más contenido -->
+    </section>
+
+    <!-- JavaScript para desplazamiento suave -->
+    <script>
+        // Agregar evento al botón para realizar el desplazamiento suave
+        document.getElementById("scrollButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+            const target = document.getElementById("Websy");
+            target.scrollIntoView({ behavior: "smooth" });
+        });
+    </script>
+
+<script>
+    // Detecta cuando los elementos entran y salen de la pantalla
+    function handleScroll() {
+        const elements = document.querySelectorAll('.fade-in'); // Selecciona todos los elementos con la clase 'fade-in'
+        elements.forEach(function(element) {
+            const rect = element.getBoundingClientRect(); // Obtiene la posición del elemento en la pantalla
+            if (rect.top >= 0 && rect.bottom <= window.innerHeight) { // Si el elemento está dentro de la vista
+                element.classList.add('visible'); // Aplica la clase 'visible' para mostrarlo
+            } else {
+                element.classList.remove('visible'); // Elimina la clase 'visible' cuando el elemento ya no está en la vista
+            }
+        });
+    }
+
+    // Ejecuta la función handleScroll cuando se hace scroll
+    window.addEventListener('scroll', handleScroll);
+
+    // Llama a handleScroll al cargar la página para detectar los elementos visibles inicialmente
+    window.addEventListener('load', handleScroll);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sección 1 - Hero */
+.hero {
+    text-align: center;
+    padding: 150px 20px;
+    background-repeat: repeat-x; /* repetir solo en horizontal */
+    background-position: center top;
+    background-size: auto 100%; /* ancho automático, alto 100% */
+    background-color: #626262;
+    color: #000000;
+}
+
+.hero h1 {
+    font-size: 5rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #000000;
+    flex: 1;  /* Hace que el título ocupe el espacio restante */
+}
+
+.hero h2 {
+    font-size: 5rem;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #000000;
+    flex: 1;
+}
+
+.hero p {
+    font-size: 3rem;
+    color: #000000;
+    flex: 2;  /* El párrafo ocupa el doble de espacio que el título */
+}
+
+.hero img {
+    max-width: 200px;
+    height: auto;
+    margin-left: 20px;  /* Espacio entre la imagen y el texto */
+}
+
+.btn {
+    padding: 12px 25px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+/* Sección 2 - Websy (¿Qué es Websy?) */
+#Websy {
+    padding: 80px 20px;
+    background-color: #000000; /* Fondo oscuro */
+    color: #fff;
+    display: flex;  /* Usa flexbox */
+    align-items: center;
+    justify-content: space-between; /* Espacio entre el texto y la imagen */
+}
+
+#Websy .contenido {
+    flex: 2;
+    max-width: 1000px;  /* Limita el ancho máximo del texto */
+    line-height: 1.6;  /* Mejora la legibilidad con un mayor espacio entre líneas */
+    font-family: "Times New Roman", Times, serif;
+    font-size: 22px;
+}
+
+#Websy img {
+    max-width: 1000px;
+    height: auto;
+    width: 750px;
+    margin-left: 5px;  /* Espacio entre la imagen y el texto */
+}
+
+/* Sección 3 - Productos */
+#productos {
+    padding: 80px 20px;
+    background-color: #787777; /* Color de fondo */
+}
+
+/* Animación de aparición */
+.fade-in {
+    opacity: 0; /* El texto está oculto inicialmente */
+    transition: opacity 1s ease-out; /* Se va a hacer visible de forma gradual */
+}
+
+/* El texto será visible cuando tenga la clase 'visible' */
+.fade-in.visible {
+    opacity: 1; /* El texto será completamente visible */
+}
