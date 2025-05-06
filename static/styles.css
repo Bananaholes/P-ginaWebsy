@@ -1,7 +1,10 @@
 body {
+    font-family: Arial, sans-serif;
+    background-color: #777;
+    color: #000;
+    padding: 20px;
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+  }  
 
 /* Sección 1 - Hero */
 .hero {
@@ -25,6 +28,7 @@ body {
     font-size: 5rem;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     color: #000000;
+    align-content: center;
     flex: 1;
 }
 
@@ -53,6 +57,39 @@ body {
 .btn:hover {
     background-color: #555;
 }
+
+.titulo-principal {
+    text-align: center;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+  
+    .contenedor {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px;  /* definimos un ancho máximo */
+    margin: 0 auto;     /* centrado horizontal */
+    gap: 400px;
+    flex-wrap: wrap;
+  }
+  
+  .columna {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .seccion {
+    margin-bottom: 40px;
+  }
+  
+  .seccion img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+  }
 
 /* Sección 2 - Websy (¿Qué es Websy?) */
 #Websy {
