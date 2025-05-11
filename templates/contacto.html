@@ -1,1 +1,65 @@
-Hola como estas
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websy - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Vinculando el favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+
+    <title>Navbar con Imagen</title>
+    <link rel="stylesheet" href="estilos.css">
+
+    <nav class="navbar">
+        <div class="nav-opciones">
+          <a href="/Servicios">Productos</a>
+          <a href="/Contactos">Contactos</a>
+          <a href="#reseñas">Reseñas</a>
+        </div>
+        <a href="index.html" class="logo-link">
+          <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
+        </a>
+      </nav>
+    
+    
+    <!-- Script para ocultar navbar al hacer scroll -->
+    <script>
+        let navbar = document.querySelector(".navbar");
+        let lastScrollTop = 0;
+    
+        window.addEventListener("scroll", function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+            if (scrollTop > lastScrollTop) {
+                // Bajando
+                navbar.classList.add("oculta");
+            } else {
+                // Subiendo
+                navbar.classList.remove("oculta");
+            }
+    
+            lastScrollTop = scrollTop;
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>

@@ -1,0 +1,106 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websy - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Vinculando el favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+
+    <title>Navbar con Imagen</title>
+    <link rel="stylesheet" href="estilos.css">
+
+    <nav class="navbar">
+        <div class="nav-opciones">
+          <a href="/Servicios">Productos</a>
+          <a href="/Contactos">Contactos</a>
+          <a href="#reseñas">Reseñas</a>
+        </div>
+        <a href="index.html" class="logo-link">
+          <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
+        </a>
+      </nav>
+    
+    
+    <!-- Script para ocultar navbar al hacer scroll -->
+    <script>
+        let navbar = document.querySelector(".navbar");
+        let lastScrollTop = 0;
+    
+        window.addEventListener("scroll", function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+            if (scrollTop > lastScrollTop) {
+                // Bajando
+                navbar.classList.add("oculta");
+            } else {
+                // Subiendo
+                navbar.classList.remove("oculta");
+            }
+    
+            lastScrollTop = scrollTop;
+        });
+    </script>
+    
+    
+
+<!-- Sección Productos -->
+<section id="productos" class="container my-5">
+    <h2 class="titulo-principal mb-4 text-center">¿Qué vendemos?</h2>
+  
+    <div class="row g-4"> <!-- g-4 da espacio vertical y horizontal entre tarjetas -->
+      
+      <!-- Tarjeta 1 -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='img/Tiendaonline.jpeg') }}" class="card-img-top" alt="Tienda Online">
+          <div class="card-body">
+            <h5 class="card-title">Tienda Online</h5>
+            <p class="card-text">Ideal para vender tus productos o servicios las 24 horas desde cualquier lugar.</p>
+            <p class="card-text">Incluye carrito de compras, medios de pago y diseño atractivo adaptado a tu marca.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta 2 -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='img/Landingpage.jpeg') }}" class="card-img-top" alt="Landing Page">
+          <div class="card-body">
+            <h5 class="card-title">Landing pages</h5>
+            <p class="card-text">Páginas simples, directas y efectivas para captar clientes o promocionar un producto.</p>
+            <p class="card-text">Ideales para campañas, eventos o lanzamientos con enfoque 100% en conversión.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta 3 -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='img/Sitiocorporativo.jpeg') }}" class="card-img-top" alt="Sitio Corporativo">
+          <div class="card-body">
+            <h5 class="card-title">Sitio institucional/corporativo</h5>
+            <p class="card-text">Presencia profesional en la web para empresas, ONGs o proyectos formales.</p>
+            <p class="card-text">Mostrá quién sos, qué hacés y cómo pueden contactarte tus clientes o socios.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tarjeta 4 -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='img/Sitiopersonal.jpeg') }}" class="card-img-top" alt="Sitio Personal">
+          <div class="card-body">
+            <h5 class="card-title">Sitios personales</h5>
+            <p class="card-text">Una página que muestra tu perfil, trabajo o pasiones, sin complicaciones.</p>
+            <p class="card-text">Perfecta para freelancers, artistas, estudiantes o cualquier persona que quiera mostrarse online.</p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  

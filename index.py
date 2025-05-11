@@ -8,6 +8,11 @@ def principal():
     return render_template("index.html")
 
 
+@app.route('/Servicios')
+def servicios():
+    return render_template("servicios.html")
+
+
 @app.route('/Contactos')
 def contacto():
     return render_template("contacto.html")

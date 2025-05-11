@@ -8,16 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Vinculando el favicon -->
     <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
+    <title>Navbar con Imagen</title>
+    <link rel="stylesheet" href="estilos.css">
+
 <body>
+
+   
     <!-- Sección Hero -->
     <section class="hero">
         <h1 class="fade-in">Transformá tu negocio con Websy</h1>
         <p class="fade-in">Te ayudamos a potenciar tu presencia en internet mediante páginas web modernas, creativas y eficientes.</p>
         <!-- Botón que realiza el desplazamiento -->
         <a href="#Websy" id="scrollButton" class="btn">Conocé más</a>
+        <p>Este sitio web tiene fines informativos. Todos los pedidos deben realizarse a través de mensajes en nuestras redes sociales, disponibles en la sección Contactos.</p>
     </section>
 
     <!-- Sección Websy -->
@@ -40,44 +45,7 @@
         <img src="{{ url_for('static', filename='img/websy-logo.jpeg') }}" alt="Logo de Websy" class="rounded mx-auto d-block" width="300">
     </section>
 
-    <!-- Sección Productos -->
-    <section id="productos">
-        <h2 class="titulo-principal">¿Qué vendemos?</h2>
 
-        <div class="contenedor">
-          <div class="columna">
-            <div class="seccion">
-              <h3>Tienda Online</h3>
-              <p>Texto descriptivo uno.</p>
-              <p>Texto descriptivo dos.</p>
-              <img src="img1.jpg" alt="Imagen 1">
-            </div>
-            <div class="seccion">
-              <h3>Landing Pages</h3>
-              <p>Texto descriptivo uno.</p>
-              <p>Texto descriptivo dos.</p>
-              <img src="img2.jpg" alt="Imagen 2">
-            </div>
-          </div>
-        
-          <div class="columna">
-            <div class="seccion">
-              <h3>Sitio Institucional/Corporativo</h3>
-              <p>Texto descriptivo uno.</p>
-              <p>Texto descriptivo dos.</p>
-              <img src="img3.jpg" alt="Imagen 3">
-            </div>
-            <div class="seccion">
-              <h3>Sitios personales simples</h3>
-              <p>Texto descriptivo uno.</p>
-              <p>Texto descriptivo dos.</p>
-              <img src="img4.jpg" alt="Imagen 4">
-            </div>
-          </div>
-        </div>
-        
-        <!-- Aquí puedes agregar más contenido -->
-    </section>
 
     <!-- JavaScript para desplazamiento suave -->
     <script>
@@ -109,6 +77,39 @@
     // Llama a handleScroll al cargar la página para detectar los elementos visibles inicialmente
     window.addEventListener('load', handleScroll);
 </script>
+
+<nav class="navbar">
+    <div class="nav-opciones">
+      <a href="/Servicios">Productos</a>
+      <a href="/Contactos">Contactos</a>
+      <a href="#reseñas">Reseñas</a>
+    </div>
+    <a href="index.html" class="logo-link">
+      <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
+    </a>
+  </nav>
+
+
+<!-- Script para ocultar navbar al hacer scroll -->
+<script>
+    let navbar = document.querySelector(".navbar");
+    let lastScrollTop = 0;
+
+    window.addEventListener("scroll", function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Bajando
+            navbar.classList.add("oculta");
+        } else {
+            // Subiendo
+            navbar.classList.remove("oculta");
+        }
+
+        lastScrollTop = scrollTop;
+    });
+</script>
+
 
 </body>
 </html>
