@@ -1,0 +1,210 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websy - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Vinculando el favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+
+    <title>Navbar con Imagen</title>
+    <link rel="stylesheet" href="estilos.css">
+
+    <nav class="navbar">
+        <div class="nav-opciones">
+          <a href="/Servicios">Productos</a>
+          <a href="/Reseñas">Reseñas</a>
+        </div>
+        <a href="index.html" class="logo-link">
+          <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
+        </a>
+      </nav>
+
+      <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            margin-top: 70px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .reseña-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .reseña-form input,
+        .reseña-form textarea {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .reseña-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .reseña-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .reseñas-lista .reseña {
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .reseñas-lista .reseña h3 {
+            margin: 0 0 10px;
+            color: #007bff;
+        }
+
+        .reseñas-lista form {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .reseñas-lista button.eliminar {
+            background-color: #dc3545;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+
+        .reseñas-lista button.eliminar:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Reseñas de nuestros usuarios</h1>
+
+        <form action="{{ url_for('reseñas') }}" method="POST" class="reseña-form">
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <textarea name="contenido" placeholder="Escribí tu reseña aquí..." required></textarea>
+            
+            <!-- Estrellas -->
+            <div class="estrellas">
+                <label>
+                    <input type="radio" name="calificacion" value="1">
+                    <span class="star">&#9733;</span>
+                </label>
+                <label>
+                    <input type="radio" name="calificacion" value="2">
+                    <span class="star">&#9733;</span>
+                </label>
+                <label>
+                    <input type="radio" name="calificacion" value="3">
+                    <span class="star">&#9733;</span>
+                </label>
+                <label>
+                    <input type="radio" name="calificacion" value="4">
+                    <span class="star">&#9733;</span>
+                </label>
+                <label>
+                    <input type="radio" name="calificacion" value="5">
+                    <span class="star">&#9733;</span>
+                </label>
+            </div>
+        
+            <button type="submit">Enviar Reseña</button>
+        </form>
+
+        <style>
+            .estrellas {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+        
+            .estrellas input {
+                display: none;
+            }
+        
+            .estrellas .star {
+                font-size: 30px;
+                color: #d3d3d3;
+                cursor: pointer;
+            }
+        
+            .estrellas input:checked ~ label .star,
+            .estrellas label:hover .star {
+                color: gold;
+            }
+        
+            .estrellas label:hover ~ label .star {
+                color: gold;
+            }
+        </style>
+        
+
+        <div class="reseñas-lista">
+            {% for reseña in reseñas %}
+            <div class="reseña">
+                <h3>{{ reseña.nombre }}</h3>
+                <p>{{ reseña.contenido }}</p>
+            
+                {% if session.get('usuario_id') == reseña.usuario_id %}
+                    <form action="{{ url_for('eliminar_reseña', id=reseña.id) }}" method="POST" onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?');">
+                        <button type="submit" class="btn btn-danger eliminar">Eliminar</button>
+                    </form>
+                {% endif %}
+            </div>
+            {% else %}
+            <p>No hay reseñas aún. ¡Sé el primero en dejar una!</p>
+        {% endfor %}            
+        </div>
+    </div>
+
+  
+  <footer id="contactos" class="contacto-footer">
+    <h2>Contactanos</h2>
+    <div class="redes">
+      <a href="https://www.instagram.com/websy_empren/?next=%2F" target="_blank">
+        <img src="{{ url_for('static', filename='img/instagram.png') }}" alt="Instagram">
+      </a>
+      <a href="https://x.com/Webssyyy" target="_blank">
+        <img src="{{ url_for('static', filename='img/twitter-alt-square.png') }}" alt="Twitter">
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61576386081872&locale=es_LA" target="_blank">
+        <img src="{{ url_for('static', filename='img/facebook.png') }}" alt="Facebook">
+      </a>
+      <p>Gmail: webssyyy@gmail.com</p>
+    </div>
+  </footer>
+</body>

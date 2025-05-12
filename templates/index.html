@@ -81,8 +81,7 @@
 <nav class="navbar">
     <div class="nav-opciones">
       <a href="/Servicios">Productos</a>
-      <a href="/Contactos">Contactos</a>
-      <a href="#reseñas">Reseñas</a>
+      <a href="/Reseñas">Reseñas</a>
     </div>
     <a href="index.html" class="logo-link">
       <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
@@ -110,6 +109,21 @@
     });
 </script>
 
-
+<footer id="contactos" class="contacto-footer">
+    <h2>Contactanos</h2>
+    <div class="redes">
+      <a href="https://www.instagram.com/websy_empren/?next=%2F" target="_blank">
+        <img src="{{ url_for('static', filename='img/instagram.png') }}" alt="Instagram">
+      </a>
+      <a href="https://x.com/Webssyyy" target="_blank">
+        <img src="{{ url_for('static', filename='img/twitter-alt-square.png') }}" alt="Twitter">
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61576386081872&locale=es_LA" target="_blank">
+        <img src="{{ url_for('static', filename='img/facebook.png') }}" alt="Facebook">
+      </a>
+      <p>Gmail: webssyyy@gmail.com</p>
+    </div>
+  </footer>
+  
 </body>
 </html>

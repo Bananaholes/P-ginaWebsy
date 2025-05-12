@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Agregar Bootstrap para mejorar el estilo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJf1riU38/5fGIvLPsl17d6m5KnM1onIuT1s1f1crQ+y/6Jvo6BCsw2bBsb9" crossorigin="anonymous">
+
+    <style>
+        /* Aplica un fondo de color claro y padding a la página */
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;  /* Asegura que la altura sea del 100% de la ventana */
+}
+
+/* Contenedor principal para centrar el contenido */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centra verticalmente */
+    align-items: center;      /* Centra horizontalmente */
+    min-height: 100vh;        /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+    padding: 20px;
+}
+
+/* Estilo del formulario */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;   /* Max ancho del formulario */
+}
+
+/* Título del formulario */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* Estilos para los campos del formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Estilo del botón de envío */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Enlace para el footer */
+.footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Registrarse</h2>
+        <!-- Mensajes de alerta si es necesario -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="list-unstyled">
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('registro') }}">
+            <div class="form-group">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Ingresa tu nombre completo">
+            </div>
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="Ingresa tu email">
+            </div>
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" class="form-control" id="contraseña" name="contraseña" required placeholder="Ingresa tu contraseña">
+            </div>
+            <div class="form-group">
+                <label for="confirmar_contraseña">Confirmar contraseña</label>
+                <input type="password" class="form-control" id="confirmar_contraseña" name="confirmar_contraseña" required placeholder="Confirma tu contraseña">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+
+        <div class="footer">
+            <p>¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+
+    <!-- Agregar el JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBw7Upo9RYBb4DqVZf" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-1CmRVjAZPazFr59sF+ZzP5X9TznxC7RMZn3b+aDKD7ImV34VmOelUMR4fnrUG5aB" crossorigin="anonymous"></script>
+</body>
+</html>
