@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 
+
 # Configuración de la base de datos SQLite
 # Definir el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -93,24 +94,41 @@ def login():
     return render_template('login.html')
 
 # Ruta de reseñas con base de datos
-@app.route('/Reseñas', methods=['GET', 'POST'])
+@app.route("/Reseñas", methods=["GET", "POST"])
 def reseñas():
-    if 'usuario_id' not in session:  # Verifica si el usuario está autenticado
-        flash('Debes iniciar sesión para enviar una reseña.', 'danger')
-        return redirect(url_for('login'))
+    if request.method == "POST":
+        nombre = request.form.get("nombre")
+        contenido = request.form.get("contenido")
+        calificacion = request.form.get("calificacion")
 
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        contenido = request.form['contenido']
-        usuario_id = session['usuario_id']  # Obtén el ID del usuario de la sesión
+        if not (nombre and contenido and calificacion):
+            flash("Por favor completá todos los campos.")
+            return redirect(url_for('reseñas'))
 
-        nueva_reseña = Reseña(nombre=nombre, contenido=contenido, usuario_id=usuario_id)
+        nueva_reseña = Reseña(
+            nombre=nombre,
+            contenido=contenido,
+            calificacion=int(calificacion),
+            usuario_id=session.get("usuario_id")
+        )
         db.session.add(nueva_reseña)
         db.session.commit()
-        return redirect(url_for('reseñas'))
+        return redirect(url_for("reseñas"))
 
-    todas_reseñas = Reseña.query.order_by(Reseña.id.desc()).all()
+    todas_reseñas = Reseña.query.all()
     return render_template("reseñas.html", reseñas=todas_reseñas)
+
+@app.route('/submit_review', methods=['POST'])
+def submit_review():
+    nombre = request.form['nombre']
+    contenido = request.form['contenido']
+    calificacion = int(request.form['calificacion'])  # Convertir el valor a entero
+    
+    nueva_reseña = Reseña(nombre=nombre, contenido=contenido, calificacion=calificacion)
+    db.session.add(nueva_reseña)
+    db.session.commit()
+    
+    return redirect(url_for('reseñas'))
 
 @app.route('/eliminar_reseña/<int:id>', methods=['POST'])
 def eliminar_reseña(id):

@@ -286,4 +286,35 @@ img {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
 
-  
+  .estrellas {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.estrellas input {
+    display: none;
+}
+
+.estrellas .star {
+    font-size: 30px;
+    color: #d3d3d3; /* Estrella gris por defecto */
+    cursor: pointer;
+}
+
+/* Cuando una estrella está seleccionada (haciendo click) */
+.estrellas input:checked ~ label .star,
+.estrellas label:hover .star {
+    color: gold; /* Cambia a dorado */
+}
+
+/* Para asegurarse que las estrellas anteriores también se pongan doradas cuando se selecciona una estrella */
+.estrellas label:hover ~ label .star {
+    color: gold;
+}
+
+/* Cuando el usuario hace clic en una estrella, la siguiente estrella se pone dorada */
+.estrellas input:checked ~ label .star {
+    color: gold;
+}
