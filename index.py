@@ -1,46 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-from flask_migrate import Migrate
+import hashlib
+from models import db, Usuario, Reseña
 
 app = Flask(__name__)
 
-
-# Configuración de la base de datos SQLite
-# Definir el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
-
-# Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'reseñas.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'mysecretkey'  # Necesario para sesiones y flash messages
+app.config['SECRET_KEY'] = 'mysecretkey'
 
-# Inicializa la base de datos y las migraciones
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
-
-class Usuario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    contraseña = db.Column(db.String(200), nullable=False)
-
-    # Relación con reseñas
-    reseñas = db.relationship('Reseña', backref='usuario', lazy=True)
-
-
-class Reseña(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    contenido = db.Column(db.Text, nullable=False)
-    calificacion = db.Column(db.Integer)  # Nueva columna para las estrellas
-    
-    # Relación con Usuario
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)  # Clave foránea correcta
-
-    def __repr__(self):
-        return f'<Reseña {self.id}>'
 
 
 # Crear la base de datos si no existe
@@ -59,6 +32,12 @@ def servicios():
 @app.route('/Contactos')
 def contacto():
     return render_template("contacto.html")
+
+def obtener_gravatar(email, tamaño=100):
+    email = email.strip().lower().encode('utf-8')
+    hash_email = hashlib.md5(email).hexdigest()
+    url = f"https://www.gravatar.com/avatar/{hash_email}?s={tamaño}&d=identicon"
+    return url
 
 # Rutas para registro y login
 @app.route('/registro', methods=['GET', 'POST'])
@@ -97,26 +76,21 @@ def login():
 @app.route("/Reseñas", methods=["GET", "POST"])
 def reseñas():
     if request.method == "POST":
-        nombre = request.form.get("nombre")
-        contenido = request.form.get("contenido")
-        calificacion = request.form.get("calificacion")
+        nombre = request.form["nombre"]
+        contenido = request.form["contenido"]
+        calificacion = int(request.form["calificacion"])
+        usuario_id = session.get("usuario_id")
 
-        if not (nombre and contenido and calificacion):
-            flash("Por favor completá todos los campos.")
-            return redirect(url_for('reseñas'))
-
-        nueva_reseña = Reseña(
-            nombre=nombre,
-            contenido=contenido,
-            calificacion=int(calificacion),
-            usuario_id=session.get("usuario_id")
-        )
+        nueva_reseña = Reseña(nombre=nombre, contenido=contenido, calificacion=calificacion, usuario_id=usuario_id)
         db.session.add(nueva_reseña)
         db.session.commit()
         return redirect(url_for("reseñas"))
 
-    todas_reseñas = Reseña.query.all()
-    return render_template("reseñas.html", reseñas=todas_reseñas)
+    page = request.args.get('page', 1, type=int)
+    reseñas_paginadas = Reseña.query.order_by(Reseña.fecha.desc()).paginate(page=page, per_page=5)
+    return render_template("reseñas.html", reseñas=reseñas_paginadas)
+
+
 
 @app.route('/submit_review', methods=['POST'])
 def submit_review():

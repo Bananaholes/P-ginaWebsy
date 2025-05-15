@@ -4,115 +4,126 @@
     <title>Websy - Reseñas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Vinculando el favicon -->
     <link rel="icon" href="{{ url_for('static', filename='img/websy-icono.ico') }}" type="image/x-icon">
 
-
-    <title>Navbar con Imagen</title>
     <link rel="stylesheet" href="estilos.css">
 
     <nav class="navbar">
         <div class="nav-opciones">
-          <a href="/Servicios">Productos</a>
-          <a href="/Reseñas">Reseñas</a>
+            <a href="/Servicios">Productos</a>
+            <a href="/Reseñas">Reseñas</a>
         </div>
         <a href="index.html" class="logo-link">
-          <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
+            <img src="{{ url_for('static', filename='img/websy-logo-copia.jpeg') }}" alt="Volver al inicio" class="logo">
         </a>
-      </nav>
-    
-    
-    <!-- Script para ocultar navbar al hacer scroll -->
+    </nav>
+
     <script>
         let navbar = document.querySelector(".navbar");
         let lastScrollTop = 0;
-    
-        window.addEventListener("scroll", function() {
+        window.addEventListener("scroll", function () {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-            if (scrollTop > lastScrollTop) {
-                // Bajando
-                navbar.classList.add("oculta");
-            } else {
-                // Subiendo
-                navbar.classList.remove("oculta");
-            }
-    
+            navbar.classList.toggle("oculta", scrollTop > lastScrollTop);
             lastScrollTop = scrollTop;
         });
     </script>
-    
-    
-
 </head>
 
 <body>
-
     <div class="container">
         <h1>Reseñas de nuestros usuarios</h1>
 
         <!-- Formulario para dejar una nueva reseña -->
-<form action="{{ url_for('reseñas') }}" method="POST" class="reseña-form">
-    <input type="text" name="nombre" placeholder="Tu nombre" required>
-    <textarea name="contenido" placeholder="Escribí tu reseña aquí..." required></textarea>
+        <form action="{{ url_for('reseñas') }}" method="POST" class="reseña-form">
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <textarea name="contenido" placeholder="Escribí tu reseña aquí..." required></textarea>
 
-<!-- Estrellas de calificación -->
-<div class="estrellas">
-    <label>
-        <input type="radio" name="calificacion" value="1" required>
-        <span class="star">&#9733;</span>
-    </label>
-    <label>
-        <input type="radio" name="calificacion" value="2">
-        <span class="star">&#9733;</span>
-    </label>
-    <label>
-        <input type="radio" name="calificacion" value="3">
-        <span class="star">&#9733;</span>
-    </label>
-    <label>
-        <input type="radio" name="calificacion" value="4">
-        <span class="star">&#9733;</span>
-    </label>
-    <label>
-        <input type="radio" name="calificacion" value="5">
-        <span class="star">&#9733;</span>
-    </label>
-</div>
+            <!-- Estrellas de calificación -->
+            <div class="estrellas">
+                {% for i in range(5, 0, -1) %}
+                    <input type="radio" id="estrella{{ i }}" name="calificacion" value="{{ i }}" required>
+                    <label for="estrella{{ i }}" class="star">&#9733;</label>
+                {% endfor %}
+            </div>
 
-    <button type="submit">Enviar Reseña</button>
-</form>
+            <button type="submit">Enviar Reseña</button>
+        </form>
 
-<!-- Mostrar todas las reseñas -->
-<div class="reseñas-lista">
-    {% for reseña in reseñas %}
-    <div class="reseña">
-        <h3>{{ reseña.nombre }}</h3>
-        <p>{{ reseña.contenido }}</p>
+        <!-- Mostrar todas las reseñas -->
+        <div class="reseñas-lista">
+            {% for reseña in reseñas.items %}
+            <div class="reseña-publicada">
+                <h4>{{ reseña.nombre }}</h4>
+                <p>{{ reseña.contenido }}</p>
+                <small>{{ reseña.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
 
-        <!-- Mostrar estrellas de la calificación de la reseña -->
-        <div class="estrellas">
-            {% set calificacion = reseña.calificacion or 0 %}  <!-- Si calificacion es None, asigna 0 -->
-            {% for i in range(calificacion) %}
-                <span class="star">&#9733;</span> <!-- Estrella llena -->
-            {% endfor %}
-            {% for i in range(5 - calificacion) %}
-                <span class="star">&#9734;</span> <!-- Estrella vacía -->
+                <!-- Mostrar estrellas -->
+                <div class="estrellas-publicadas">
+                    {% for i in range(1, 6) %}
+                        {% if i <= reseña.calificacion %}
+                            <span class="star">&#9733;</span>
+                        {% else %}
+                            <span class="star">&#9733;</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {% if session.get('usuario_id') == reseña.usuario_id %}
+                    <form action="{{ url_for('eliminar_reseña', id=reseña.id) }}" method="POST" onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?');">
+                        <button type="submit" class="btn btn-danger eliminar">Eliminar</button>
+                    </form>
+                {% endif %}
+            </div>
+            {% else %}
+                <p>No hay reseñas aún. ¡Sé el primero en dejar una!</p>
             {% endfor %}
         </div>
 
-        {% if session.get('usuario_id') == reseña.usuario_id %}
-            <form action="{{ url_for('eliminar_reseña', id=reseña.id) }}" method="POST" onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?');">
-                <button type="submit" class="btn btn-danger eliminar">Eliminar</button>
-            </form>
-        {% endif %}
-    </div>
+<!-- Paginación -->
+<nav aria-label="Paginación" class="paginacion">
+  <ul class="pagination justify-content-center">
+
+    {% if reseñas.has_prev %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('reseñas', page=reseñas.prev_num) }}" aria-label="Anterior">
+          &laquo; Anterior
+        </a>
+      </li>
     {% else %}
-        <p>No hay reseñas aún. ¡Sé el primero en dejar una!</p>
+      <li class="page-item disabled">
+        <span class="page-link">&laquo; Anterior</span>
+      </li>
+    {% endif %}
+
+    {% for num in reseñas.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if num %}
+        {% if num == reseñas.page %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="{{ url_for('reseñas', page=num) }}">{{ num }}</a></li>
+        {% endif %}
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
     {% endfor %}
-</div>
+
+    {% if reseñas.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('reseñas', page=reseñas.next_num) }}" aria-label="Siguiente">
+          Siguiente &raquo;
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Siguiente &raquo;</span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
 
 
+    </div>
 
     <footer id="contactos" class="contacto-footer">
         <h2>Contactanos</h2>
@@ -130,12 +141,13 @@
         </div>
     </footer>
 
-    <!-- Estilos adicionales para las estrellas -->
+    <!-- Estilos -->
     <style>
         .estrellas {
             display: flex;
+            flex-direction: row;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
             margin-bottom: 10px;
         }
 
@@ -143,59 +155,79 @@
             display: none;
         }
 
-        .estrellas .star {
+        .estrellas label {
             font-size: 30px;
             color: #d3d3d3;
             cursor: pointer;
+            transition: color 0.2s;
         }
 
-        .estrellas input:checked ~ label .star,
-        .estrellas label:hover .star {
+        .estrellas input:checked ~ label,
+        .estrellas label:hover,
+        .estrellas label:hover ~ label {
             color: gold;
         }
 
-        .estrellas label:hover ~ label .star {
+        .reseñas-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .reseña-publicada {
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+
+        .estrellas-publicadas .star {
             color: gold;
+            font-size: 24px;
+            margin-right: 3px;
+        }
+
+        .reseña-publicada h4 {
+            font-weight: 600;
+        }
+
+        .reseña-publicada p {
+            margin: 10px 0;
+        }
+
+        .eliminar {
+            margin-top: 10px;
+        }
+
+        .paginacion {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .paginacion a {
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
         }
     </style>
 
-<script>
-    document.querySelectorAll('.estrellas input').forEach(input => {
-        input.addEventListener('change', function() {
-            const allStars = document.querySelectorAll('.estrellas .star');
-            const value = parseInt(this.value, 10);
-            allStars.forEach((star, index) => {
-                star.style.color = index < value ? 'gold' : '#d3d3d3';
+    <!-- JavaScript para efecto hover de estrellas -->
+    <script>
+        const estrellas = document.querySelectorAll('.estrellas label');
+        estrellas.forEach((estrella, index) => {
+            estrella.addEventListener('mouseover', () => {
+                for (let i = 0; i <= index; i++) estrellas[i].style.color = 'gold';
+                for (let i = index + 1; i < estrellas.length; i++) estrellas[i].style.color = '#d3d3d3';
+            });
+
+            estrella.addEventListener('mouseout', () => {
+                const checked = document.querySelector('.estrellas input:checked');
+                const valor = checked ? parseInt(checked.value) : 0;
+                estrellas.forEach((s, i) => s.style.color = i < valor ? 'gold' : '#d3d3d3');
             });
         });
-    });
-
-    // Para mostrar correctamente el comportamiento de las estrellas al pasar el mouse y al hacer click
-    const estrellas = document.querySelectorAll('.estrellas .star');
-    let calificacionSeleccionada = 0;
-
-    estrellas.forEach((star, index) => {
-        // Cuando pasas el cursor por encima
-        star.addEventListener('mouseover', () => {
-            estrellas.forEach((s, i) => {
-                s.style.color = i <= index ? 'gold' : '#d3d3d3';
-            });
-        });
-
-        // Cuando el cursor deja de estar sobre las estrellas
-        star.addEventListener('mouseout', () => {
-            estrellas.forEach((s, i) => {
-                s.style.color = i < calificacionSeleccionada ? 'gold' : '#d3d3d3';
-            });
-        });
-
-        // Cuando haces click
-        star.addEventListener('click', () => {
-            calificacionSeleccionada = index + 1;
-            estrellas.forEach((s, i) => {
-                s.style.color = i < calificacionSeleccionada ? 'gold' : '#d3d3d3';
-            });
-        });
-    });
-</script>
+    </script>
 </body>

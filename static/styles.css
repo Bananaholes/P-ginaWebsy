@@ -1,10 +1,11 @@
 body {
-    font-size: 1rem; color: #555;
+    font-size: 1rem; color: #555;  /* color #555 aquí */
     background-color: #f8f9fa;
-    color: #000;
+    color: #000;  /* color negro aquí (sobrescribe el #555) */
     padding: 20px;
     margin: 0;
-  }  
+}
+ 
 
 /* Sección 1 - Hero */
 .hero {
@@ -286,10 +287,47 @@ img {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
 
-  .estrellas {
+  .reseñas-lista {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.reseña-publicada {
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: #fff;
+}
+
+.estrellas-publicadas .star {
+    color: gold;
+    font-size: 24px;
+    margin-right: 3px;
+}
+
+.reseña-publicada h4 {
+    font-weight: 600;
+}
+
+.reseña-publicada p {
+    margin: 10px 0;
+}
+
+.eliminar {
+    margin-top: 10px;
+}
+
+
+
+
+.estrellas {
+    display: flex;
+    flex-direction: row; /* AHORA ES NORMAL, NO REVERSE */
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
     margin-bottom: 10px;
 }
 
@@ -297,11 +335,66 @@ img {
     display: none;
 }
 
+.estrellas label {
+    font-size: 30px;
+    color: #d3d3d3;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.estrellas input:checked ~ label,
+.estrellas label:hover,
+.estrellas label:hover ~ label {
+    color: gold;
+}
+
+
 .estrellas .star {
     font-size: 30px;
     color: #d3d3d3; /* Estrella gris por defecto */
     cursor: pointer;
 }
+
+.estrellas-publicadas {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.estrellas-publicadas .star {
+    font-size: 25px;
+    color: gold;
+    pointer-events: none;
+}
+
+.estrellas-publicadas .star {
+    font-size: 24px;
+    margin: 0 2px;
+}
+
+.estrellas-publicadas .llena {
+    color: gold;
+}
+
+.estrellas-publicadas .vacia {
+    color: lightgray;
+}
+
+
+.paginacion {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.paginacion a {
+    margin: 0 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 
 /* Cuando una estrella está seleccionada (haciendo click) */
 .estrellas input:checked ~ label .star,
